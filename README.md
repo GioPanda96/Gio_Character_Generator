@@ -6,7 +6,11 @@ Currently running here: https://giovannipanda.pythonanywhere.com
 The code takes a character description in conversational english and outputs a full and editable D&D 5e character sheet, complete of everything you might need to play.
 The generator uses OpenAI models for the text content and DeepAI for the character image.
 
-(Note: the OpenAI API key is taken as an input in the home page of the website, while the DeepAI key is hard coded in for REASONS. In the provided code here the DeepAI key has to be manually put in script.py in place of DEEPAI_KEY)
+<sub>Note: the OpenAI API key is taken as an input in the home page of the website, while the DeepAI key is hard coded in for REASONS. Since I obviously don't want to share my personal key, it has been removed from script.py, and has to be put in manually if you want to try the code outside the website.
+```
+deepai_api_key = 'DEEPAI_KEY'
+```
+</sub>
 
 ## How do I use this?
 
