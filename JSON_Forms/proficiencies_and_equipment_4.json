@@ -1,0 +1,12 @@
+ {
+  "proficiencies_class_features": [ //Make sure to add every class feature that the character has according to his/her current level and subclass. Include all of them.
+    {
+      "name": "<a href=\"dnd5e.wikidot.com_link_to_the_trait\">Proficiency or Class Feature Name</a>", //Add relevant dnd5e.wikidot.com links for players to reference the trait in more detail
+      "description": "Very brief description"
+    }
+  ],
+  "equipment": [ //Make sure to add all the items a ready to play character might have, like rations etc.
+    "Item 1",
+    "Item 2"
+  ]
+}

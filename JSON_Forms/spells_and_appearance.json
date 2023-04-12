@@ -1,0 +1,95 @@
+{
+  "spells": //Only fill if the character can use spells at all, if not leave empty like "spells":{}. If the character is a spellcaster, make sure to include ALL SPELLS that the character knows (if it's limited) and has ready. Remember this has to be a sheet that a player could use.
+{
+  "spellcaster_ability": "Insert Spellcasting Ability (e.g., Intelligence, Wisdom, Charisma)",
+  "spell_save_dc": "Insert Spell Save DC",
+  "spell_attack_bonus": "Insert Spell Attack Bonus",
+  "spells": {
+    "cantrips": [ //Include all cantrips known by the character
+      "Insert Cantrip 1",
+      "Insert Cantrip 2"
+      "..."
+    ],
+    "level_1": {
+      "spell_slots": "Insert Number of Level 1 Spell Slots",
+      "spells": [
+        "Insert Level 1 Spell 1",
+        "Insert Level 1 Spell 2"
+        "..."
+      ]
+    },
+    "level_2": {
+      "spell_slots": "Insert Number of Level 2 Spell Slots",
+      "spells": [
+        "Insert Level 2 Spell 1",
+        "Insert Level 2 Spell 2"
+        "..."
+      ]
+    },
+    "level_3": {
+      "spell_slots": "Insert Number of Level 3 Spell Slots",
+      "spells": [
+        "Insert Level 3 Spell 1",
+        "Insert Level 3 Spell 2"
+        "..."
+      ]
+    },
+    "level_4": {
+      "spell_slots": "Insert Number of Level 4 Spell Slots",
+      "spells": [
+        "Insert Level 4 Spell 1",
+        "Insert Level 4 Spell 2"
+        "..."
+      ]
+    },
+    "level_5": {
+      "spell_slots": "Insert Number of Level 5 Spell Slots",
+      "spells": [
+        "Insert Level 5 Spell 1",
+        "Insert Level 5 Spell 2"
+        "..."
+      ]
+    },
+    "level_6": {
+      "spell_slots": "Insert Number of Level 6 Spell Slots",
+      "spells": [
+        "Insert Level 6 Spell 1",
+        "Insert Level 6 Spell 2"
+        "..."
+      ]
+    },
+    "level_7": {
+      "spell_slots": "Insert Number of Level 7 Spell Slots",
+      "spells": [
+        "Insert Level 7 Spell 1",
+        "Insert Level 7 Spell 2"
+        "..."
+      ]
+    },
+    "level_8": {
+      "spell_slots": "Insert Number of Level 8 Spell Slots",
+      "spells": [
+        "Insert Level 8 Spell 1",
+        "Insert Level 8 Spell 2"
+        "..."
+      ]
+    },
+    "level_9": {
+      "spell_slots": "Insert Number of Level 9 Spell Slots",
+      "spells": [
+        "Insert Level 9 Spell 1",
+        "Insert Level 9 Spell 2"
+        "..."
+      ]
+    }
+  }
+},
+  "appearance": "Fairly detailed character appearance description",
+  "appearance_AI": "Input for an AI", //This part isn't going to be included in the character sheet itself, it's going to be used as an input for an AI image generator. Write the description so it can be used as a good input for an AI image generation like DALL-E.
+  "personality_traits_ideals_bonds_flaws": [
+    {
+      "type": "Trait/Ideal/Bond/Flaw",
+      "description": "Description"
+    }
+  ]
+}
