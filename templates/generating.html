@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generating Character</title>
+    <link rel="icon" type="image/x-icon" href="/static/icon.ico">
+    <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English&family=IM+Fell+English+SC&family=Alegreya&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Alegreya', serif;
+            -webkit-background-image: url('https://i.ibb.co/sF1Q7LY/background.jpg');
+            background-image: url('https://i.ibb.co/sF1Q7LY/background.jpg');
+            background-color: #4A4A4A;
+            color: #e7e7e7;
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .content-block {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.5);
+        }
+
+          .rainbow {
+            animation: rainbow 2s linear infinite;
+          }
+
+          @keyframes rainbow {
+            0% { fill: red; }
+            14% { fill: orange; }
+            28% { fill: yellow; }
+            42% { fill: green; }
+            57% { fill: blue; }
+            71% { fill: indigo; }
+            85% { fill: violet; }
+            100% { fill: red; }
+          }
+
+
+          .rainbow-glow {
+            animation: rainbow-glow 2s linear infinite;
+          }
+
+          @keyframes rainbow-glow {
+            0% { stroke: red; }
+            14% { stroke: orange; }
+            28% { stroke: yellow; }
+            42% { stroke: green; }
+            57% { stroke: blue; }
+            71% { stroke: indigo; }
+            85% { stroke: violet; }
+            100% { stroke: red; }
+          }
+
+
+        #progress-container {
+            width: 100%;
+            background-color: #f3f3f3;
+        }
+
+        #progress-bar {
+            width: 0%;
+            height: 24px;
+            background-color: #bfbfbf;
+        }
+
+        .watermark {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+        .loading-image {
+            width: 500px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generating your character...</h1>
+        <svg id="loading-svg" width="100%" viewBox="0 0 1024 672">
+<defs>
+  <filter id="glow">
+    <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+    <feMerge>
+      <feMergeNode in="coloredBlur"/>
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
+</defs>
+<path
+   fill="#000000"
+   opacity="1"
+   stroke="#ffffff"
+   stroke-width="4"
+   d="m 353.8963,183.87535 c 41.2598,-29.97653 82.22815,-59.7476 122.97272,-89.356032 2.60495,2.197517 2.20236,4.14006 2.20718,5.912152 0.0377,13.82339 -0.0682,27.64797 0.089,41.4697 0.0426,3.74301 -1.34659,6.06055 -4.37323,8.24208 -36.86545,26.57207 -73.64117,53.26868 -110.42953,79.94766 -14.14847,10.26048 -28.34165,20.46201 -42.35471,30.90469 -3.65012,2.7201 -6.96792,3.75458 -11.45166,2.19718 -13.65512,-4.74301 -27.42569,-9.15363 -41.14883,-13.70108 -0.76661,-0.25401 -1.64057,-0.38184 -2.41596,-2.63619 28.64121,-20.75821 57.62738,-41.76644 86.90503,-62.98016 z"
+   id="path14" />
+<path
+   fill="#000000"
+   opacity="1"
+   stroke="#ffffff"
+   stroke-width="4"
+   d="m 591.51379,145.46893 c 46.81305,33.96132 93.3324,67.71489 140.52832,101.9594 -6.95117,4.20766 -13.63116,5.1181 -19.76989,7.41614 -8.09412,3.03001 -16.49561,5.23115 -24.63495,8.15107 -4.19544,1.50507 -7.40875,0.97226 -11.03937,-1.7034 -24.67017,-18.18132 -49.47363,-36.18205 -74.26984,-54.19187 -25.33276,-18.39956 -50.61902,-36.86553 -76.13513,-55.00779 -5.14191,-3.65594 -7.52203,-7.54014 -7.28058,-13.9946 0.47284,-12.6448 0.10187,-25.32051 0.13025,-37.98332 0.004,-1.75417 -0.59161,-3.97498 1.52399,-4.872197 1.79968,-0.763214 3.02148,0.943153 4.33331,1.894638 22.11017,16.036629 44.21448,32.081289 66.61389,48.331929 z"
+   id="path16" />
+<path
+   fill="#000000"
+   opacity="1"
+   stroke="#ffffff"
+   stroke-width="4"
+   d="m 364.88391,490.08942 c 0.76566,2.08944 1.38504,3.69149 0.0432,5.51742 -9.55996,13.00897 -19.03991,26.07669 -28.57254,39.10581 -0.26025,0.35571 -0.82653,0.48754 -1.23312,0.71429 -2.61203,-2.78137 -80.76628,-241.52917 -80.7029,-246.86096 4.30816,-0.75549 8.01567,1.59729 11.82561,2.74255 10.65393,3.2027 21.12482,7.0119 31.76587,10.26093 4.16119,1.27051 6.68649,3.19467 8.08969,7.63064 9.26352,29.28519 18.80701,58.48206 28.31738,87.68879 10.08017,30.95651 20.22489,61.89199 30.4668,93.20053 z"
+   id="path18" />
+<path
+   fill="#000000"
+   opacity="1"
+   stroke="#ffffff"
+   stroke-width="4"
+   d="m 682.27582,481.17081 c -5.95154,18.26925 -11.82062,36.14792 -17.90308,54.6766 -4.81384,-3.88556 -7.06939,-8.2077 -9.9079,-12.01166 -6.56958,-8.80383 -12.89086,-17.79263 -19.42999,-26.61966 -1.97748,-2.66937 -2.23639,-5.12167 -1.17999,-8.33728 8.19128,-24.93463 16.11743,-49.9562 24.25714,-74.90799 10.30701,-31.59524 21.43628,-62.9461 30.74725,-94.8298 3.38642,-11.5964 8.5091,-18.14999 20.29511,-20.80432 10.80999,-2.43457 21.23486,-6.5773 31.83478,-9.95047 0.94299,-0.30011 1.92956,-0.58859 3.75769,0.73651 -20.72504,63.66724 -41.55677,127.66235 -62.47101,192.04807 z"
+   id="path20" />
+<path
+   fill="#000000"
+   opacity="1"
+   stroke="#ffffff"
+   stroke-width="4"
+   d="m 614.99164,561.2124 c -82.04737,-4.9e-4 -163.59619,-4.9e-4 -244.83783,-4.9e-4 -1.12674,-2.82006 0.34085,-4.00305 1.26312,-5.27465 8.21359,-11.32502 16.55414,-22.55896 24.67069,-33.95258 2.1473,-3.01428 4.54647,-4.30896 8.30377,-4.30341 63.14047,0.0931 126.28116,0.0972 189.42154,-0.004 4.10187,-0.007 6.69452,1.30494 9.08166,4.70575 7.84259,11.17291 16.06531,22.07868 24.10083,33.11701 1.02857,1.41296 2.59375,2.6524 2.16693,5.16595 -4.47265,1.16248 -9.11322,0.27088 -14.17071,0.54602 z"
+   id="path22" />
+<path
+   fill="#000000"
+   opacity="1"
+   stroke="#FFFFFF"
+   stroke-width="4"
+   d="m 345.34929,308.23013 c -6.63457,-12.56392 -5.14765,-25.16688 0.51198,-36.87408 8.0341,-16.61899 20.90345,-28.48745 39.22789,-33.40687 6.62854,-1.77953 13.40636,-1.88519 20.09266,-0.25738 12.35329,3.00743 21.25272,14.6249 22.31152,27.34426 0.49946,5.99979 -1.31495,9.40864 -6.22171,12.67865 -14.41258,9.60501 -27.17133,21.18407 -34.34383,37.25955 -3.04525,6.82519 -6.91514,8.25402 -13.70009,8.21147 -8.71288,-0.0546 -16.25176,-2.04201 -22.66942,-7.95658 -2.10598,-1.9409 -3.77302,-4.21289 -5.209,-6.99902 z"
+   id="path14-3"
+   style="stroke-width:4" /><path
+   fill="#000000"
+   opacity="1"
+   stroke="#FFFFFF"
+   stroke-width="4"
+   d="m 655.19587,277.89254 c 2.82604,10.93452 3.47893,21.46189 -2.56561,31.30961 -5.32283,8.67189 -13.08445,13.46362 -23.39174,13.73033 -3.44317,0.0891 -6.8914,-0.0156 -10.33733,-0.0313 -2.17771,-0.01 -3.75128,-0.88963 -4.6174,-2.98888 -7.46311,-18.08886 -20.63217,-31.33578 -36.55475,-41.94611 -5.42873,-3.61756 -7.22301,-7.25646 -6.46613,-13.92001 1.35246,-11.90616 9.47879,-24.5841 25.17516,-27.01853 7.73511,-1.19968 15.51531,-0.44908 22.82301,2.66429 17.4263,7.42432 29.63526,19.8488 35.93479,38.20055 z"
+   id="path16-9"
+   style="stroke-width:4" /><path
+   fill="#000000"
+   opacity="1"
+   stroke="#FFFFFF"
+   stroke-width="4"
+   d="m 557.04818,435.75443 c -2.75358,-13.33771 -8.0319,-25.08465 -17.25782,-34.85789 -1.658,-1.75635 -2.53476,-3.75909 -3.00689,-6.16437 -1.23042,-6.26825 -2.43234,-12.53292 -3.26644,-18.87015 -0.42857,-3.25628 0.25567,-5.53389 3.54763,-7.16999 5.20269,-2.58572 10.31851,-5.14907 16.2017,-5.83747 7.15265,-0.83692 12.81679,1.50901 16.77905,7.55489 3.44606,5.25822 5.02563,11.21617 5.67045,17.36958 0.27907,2.66266 1.32423,3.86145 3.845,4.52149 6.36708,1.66722 12.22898,4.45434 17.44055,8.55067 11.10459,8.72829 13.27071,21.60755 7.55697,33.14505 -5.91737,11.94865 -15.78495,20.3085 -29.52351,22.97344 -4.21413,0.81742 -8.31385,0.21897 -12.43873,-0.60961 -2.76643,-0.55567 -3.92329,-2.17209 -3.89348,-4.92025 0.0562,-5.18192 -0.59755,-10.29934 -1.65448,-15.68539 z"
+   id="path18-0"
+   style="stroke-width:4" /><path
+   fill="#000000"
+   opacity="1"
+   stroke="#FFFFFF"
+   stroke-width="4"
+   d="m 450.06941,426.15974 c -2.65682,8.40415 -4.26873,16.70799 -4.22523,25.2465 0.0165,3.2366 -1.44865,4.58924 -4.41734,5.22314 -8.8963,1.89962 -17.12552,0.30008 -24.73033,-4.5291 -6.53722,-4.15129 -12.23791,-9.40498 -15.85627,-16.20474 -6.61105,-12.42372 -5.39849,-28.61304 11.73698,-38.42638 3.86024,-2.21078 7.9274,-4.03048 12.25453,-5.0081 2.85121,-0.64416 3.7955,-2.43538 4.0486,-4.90679 0.4294,-4.19297 1.53645,-8.19971 3.05124,-12.1101 3.95299,-10.20461 11.55151,-14.3908 22.17302,-12.09236 5.34254,1.15612 10.21478,3.4853 14.85495,6.34986 1.42047,0.87689 1.99098,1.98129 1.98169,3.62999 -0.0475,8.43413 -2.20598,16.52466 -3.9756,24.67482 -0.16703,0.76929 -0.86643,1.48293 -1.45402,2.09184 -7.13694,7.39613 -12.03488,16.11778 -15.44222,26.06142 z"
+   id="path20-5"
+   style="stroke-width:4" /><path
+   fill="#000000"
+   opacity="1"
+   stroke="#FFFFFF"
+   stroke-width="4"
+   d="m 527.58998,482.40133 c -3.36804,1.25511 -6.40917,2.70234 -9.6131,3.47037 -6.32717,1.51668 -11.83344,4.10828 -14.97062,9.76453 -1.6072,0.13173 -1.87876,-0.84521 -2.36514,-1.48694 -2.77737,-3.66441 -6.37859,-6.05228 -10.816,-7.26389 -4.50791,-1.23083 -8.96433,-2.59711 -13.22045,-4.5999 -5.29512,-2.49174 -8.95306,-6.4061 -10.95851,-11.87341 -2.13764,-5.82773 0.61034,-10.15301 6.80184,-10.48922 6.64978,-0.36106 13.27395,-0.20876 19.75121,1.69618 6.53833,1.92288 13.09255,1.77632 19.66661,0.0472 6.69676,-1.76141 13.46414,-2.74124 20.42779,-1.81643 6.45178,0.8568 8.92443,4.96018 6.48735,11.00379 -2.12688,5.27442 -5.73362,9.11248 -11.19098,11.5477 z"
+   id="path22-2"
+   style="stroke-width:4" />
+</svg>
+        <p id="progress-text" style="position: relative; bottom: 40px;"></p>
+    <p id="progress-text" style="position: relative; bottom: 40px;"></p>
+    </div>
+    <div class="watermark">Gio's Character Generator</div>
+</body>
+    <script>
+
+    async function checkGenerationStatus() {
+        const generationComplete = await fetch('/generation_status');
+        const status = await generationComplete.json();
+        console.log("Generation status:", status);
+        return {complete: status.complete, error: status.error, api_exception: status.api_exception};
+    }
+
+    async function generateCharacter() {
+        const response = await fetch('/generate_character', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                api_key: localStorage.getItem('openai_api_key'),
+                description: localStorage.getItem('character_description'),
+                model: localStorage.getItem('character_model')
+            })
+        });
+
+        if (response.ok) {
+            let complete = false;
+            let errorOccurred = false;
+            let apiExceptionOccurred = false;
+            while (!complete && !errorOccurred && !apiExceptionOccurred) {
+                const status = await checkGenerationStatus();
+                complete = status.complete;
+                errorOccurred = status.error;
+                apiExceptionOccurred = status.api_exception;
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+            console.log("Generation complete:", complete);
+            console.log("Error occurred:", errorOccurred);
+            console.log("API exception occurred:", apiExceptionOccurred);
+            clearInterval(progressInterval);
+
+            if (errorOccurred) {
+                console.error('An error occurred while generating the character.');
+                window.location.href = '/error';  // Redirect to the general error page
+            } else if (apiExceptionOccurred) {
+                console.error('An API exception occurred while generating the character.');
+                window.location.href = '/api_exception';  // Redirect to the API exception error page
+            } else {
+                window.location.href = '/display';
+            }
+        } else {
+            clearInterval(progressInterval);
+            console.error('An error occurred while generating the character.');
+            window.location.href = '/error';  // Redirect to the general error page
+        }
+    }
+
+    async function fetchProgress() {
+        console.log("Inside fetchProgress function");
+
+        try {
+            const response = await fetch('/progress', {cache: 'no-store'});
+            console.log("Response status:", response.status);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log("Fetching progress...", data);
+            updateProgressBar(data.progress);
+        } catch (error) {
+            console.error("Error in fetchProgress:", error);
+        }
+    }
+
+        const progressInterval = setInterval(fetchProgress, 1000);
+
+        function updateProgressBar(progress) {
+            console.log('Updating progress bar:', progress);
+
+            const pathIds = ['path14', 'path16', 'path20', 'path22', 'path18'];
+            const glowPathIds = ['path14-3', 'path16-9', 'path18-0', 'path20-5', 'path22-2'];
+            let progressIndex = Math.floor(progress * 5);
+
+            pathIds.forEach((pathId, index) => {
+                const path = document.getElementById(pathId);
+                if (index < progressIndex) {
+                    path.setAttribute('fill', '#ffffff'); // Set fill color to white
+                } else {
+                    path.setAttribute('fill', '#000000'); // Set fill color to black
+                }
+            });
+
+            if (progress === 1) {
+                glowPathIds.forEach((pathId) => {
+                    const path = document.getElementById(pathId);
+                    path.classList.add('rainbow-glow');// Add the rainbow-glow class to the specified paths
+                    path.classList.add('rainbow');// Add the rainbow class to the specified paths
+                });
+            }
+
+            const progressText = document.getElementById('progress-text');
+            if (progress === 0) {
+                progressText.textContent = 'Generating stats...';
+            } else if (progress === 0.2) {
+                progressText.textContent = 'Generating proficiencies and equipment...';
+            } else if (progress === 0.4) {
+                progressText.textContent = 'Generating racial traits and feats...';
+            } else if (progress === 0.6) {
+                progressText.textContent = 'Generating spells and appearance...';
+            } else if (progress === 0.8) {
+                progressText.textContent = 'Generating affiliations and backstory...';
+            } else if (progress === 1) {
+                progressText.textContent = 'Generating character image...';
+            }
+
+        }
+
+        generateCharacter();
+    </script>
+</html>
+

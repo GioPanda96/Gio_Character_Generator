@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Done</title>
+    <link rel="icon" type="image/x-icon" href="/static/icon.ico">
+    <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English&family=IM+Fell+English+SC&family=Alegreya&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Alegreya', serif;
+            -webkit-background-image: url('https://i.ibb.co/sF1Q7LY/background.jpg');
+            background-image: url('https://i.ibb.co/sF1Q7LY/background.jpg');
+            background-color: #4A4A4A;
+            color: #e7e7e7;
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        a {
+            font-family: 'Alegreya', serif;
+            font-size: 1.2rem;
+            color: #e7e7e7;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #6d5d53;
+        }
+
+        .watermark {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your character sheet has been downloaded!</h1>
+        <a href="/">Return to home</a>
+        <div class="watermark">Gio's Character Generator</div>
+    </div>
+</body>
+</html>

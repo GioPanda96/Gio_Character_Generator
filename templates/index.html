@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Generator</title>
+    <link rel="icon" type="image/x-icon" href="/static/icon.ico">
+    <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English&family=IM+Fell+English+SC&family=Alegreya&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Alegreya', serif;
+            -webkit-background-image: url('https://i.ibb.co/sF1Q7LY/background.jpg');
+            background-image: url('https://i.ibb.co/sF1Q7LY/background.jpg');
+            background-color: #4A4A4A;
+            color: #e7e7e7;
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            font-family: 'Alegreya', serif;
+            font-size: 1rem;
+            background-color: #4A4A4A;
+            color: #e7e7e7;
+            border: 1px solid #8d8680;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            resize: vertical;
+        }
+
+        button {
+            font-family: 'Alegreya', serif;
+            font-size: 1.2rem;
+            background-color: #4A4A4A;
+            color: #e7e7e7;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #6d5d53;
+        }
+
+        .small-button {
+            font-size: 0.6rem;
+            padding: 5px 10px;
+            margin-bottom: 5px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+        .warning {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
+        .content-block {
+          padding: 15px;
+          margin-bottom: 15px;
+          border-radius: 10px; /* add rounded corners */
+          box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.5); /* add white shadows */
+        }
+
+        .content {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.5s ease-out;
+        }
+
+        .content p {
+          margin: 0;
+          padding: 10px 0;
+        }
+
+        .watermark {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        input {
+        font-family: 'Alegreya', serif;
+        text-align: center;
+        font-size: 1rem;
+        background-color: #4A4A4A;
+        color: #e7e7e7;
+        border: 1px solid #8d8680;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        padding: 5px;
+        width: calc(30 * 1ch); /* Set the width to fit 51 characters */
+        }
+
+
+        select {
+            font-family: 'Alegreya', serif;
+            font-size: 1rem;
+            background-color: #4A4A4A;
+            color: #e7e7e7;
+            border: 1px solid #8d8680;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin-bottom: 20px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='292.4' height='292.4'><polygon points='0,0 292.4,0 146.2,292.4'/></svg>") no-repeat;
+            background-color: #4A4A4A;
+            background-position: right 0.5rem center;
+            background-size: 1.5rem;
+            padding-right: 2.5rem;
+        }
+
+        option {
+            background-color: #4A4A4A;
+            color: #e7e7e7;
+        }
+
+    </style>
+    <script>
+
+        function toggleContent(id) {
+            const contentSection = document.getElementById(id);
+            if (contentSection.style.maxHeight) {
+                contentSection.style.maxHeight = null;
+            } else {
+                contentSection.style.maxHeight = contentSection.scrollHeight + "px";
+            }
+        }
+        function checkInput() {
+            const description = document.getElementById('description');
+            const apiKey = document.getElementById('api_key');
+
+            if (description.value.length > 0 && apiKey.value.length === 51) {
+                return true;
+            }
+
+            return false;
+        }
+
+        function validateForm(event) {
+            const isValid = checkInput();
+            const warning = document.getElementById('warning');
+
+            if (!isValid) {
+                event.preventDefault();
+                showWarning();
+            } else {
+                event.preventDefault();
+                warning.style.display = 'none';
+
+                const apiKey = document.getElementById('api_key').value;
+                const description = document.getElementById('description').value;
+                const model = document.getElementById('model').value;
+
+                localStorage.setItem('openai_api_key', apiKey);
+                localStorage.setItem('character_description', description);
+                localStorage.setItem('character_model', model);
+
+                window.location.href = '/generating';
+            }
+        }
+
+
+        function showWarning() {
+            const description = document.getElementById('description');
+            const apiKey = document.getElementById('api_key');
+            const warning = document.getElementById('warning');
+
+            if (description.value.length === 0) {
+                warning.textContent = 'Please enter a character description.';
+            } else if (apiKey.value.length !== 51) {
+                warning.textContent = 'Please enter a valid API key (51 characters).';
+            }
+
+            warning.style.display = 'block';
+        }
+
+        function setApiKeyFromLocalStorage() {
+            const apiKey = document.getElementById('api_key');
+            const storedApiKey = localStorage.getItem('openai_api_key');
+
+            if (storedApiKey) {
+                apiKey.value = storedApiKey;
+            }
+        }
+
+        async function getRandomDescription() {
+            try {
+                const names = await fetch('/static/random_descriptions/names.json').then(res => res.json());
+                const classes = await fetch('/static/random_descriptions/classes.json').then(res => res.json());
+                const races = await fetch('/static/random_descriptions/races.json').then(res => res.json());
+                const characteristics = await fetch('/static/random_descriptions/characteristics.json').then(res => res.json());
+
+                const name = names[Math.floor(Math.random() * names.length)];
+                const level = Math.floor(Math.random() * 20) + 1;
+                const characterClass = classes[Math.floor(Math.random() * classes.length)];
+                const race = races[Math.floor(Math.random() * races.length)];
+                const characteristic1 = characteristics[Math.floor(Math.random() * characteristics.length)];
+                const characteristic2 = characteristics[Math.floor(Math.random() * characteristics.length)];
+
+                const description = `${name} is a level ${level} ${characterClass} ${race}. ${name} ${characteristic1} and ${characteristic2}.`;
+                document.getElementById('description').value = description;
+            } catch (error) {
+                console.error('Error generating random description:', error);
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', setApiKeyFromLocalStorage);
+
+    </script>
+    </head>
+<body>
+    <h1>Gio's D&D 5e Character Generator</h1>
+    <form id="character-form" method="POST" onsubmit="validateForm(event);">
+    <label for="api_key">OpenAI API Key:</label>
+    <input type="password" id="api_key" name="api_key" required>
+    <p></p>
+    <label for="description">Character Description:</label>
+    <button type="button" class="small-button" onclick="getRandomDescription()">Randomize</button>
+    <textarea id="description" name="description" rows="5" cols="40"></textarea>
+    <label for="model">Model:</label>
+    <select id="model" name="model">
+        <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+        <option value="gpt-4">GPT-4</option>
+    </select>
+    <p></p>
+    <div class="content-block">
+      <h2 onclick="toggleContent('how-to')">How do I use this?</h2>
+      <div id="how-to" class="content">
+        <p>The tool is very simple to use, just follow these steps:</p>
+        <p></p>
+        <p><strong>1 - Get yourself an OpenAI Key</strong></br>
+        You will need an OpenAI API key to use the tool, since the generation costs a very small amount of money (just a few cents). The money doesn't go to me, it goes to OpeanAI to allow us to use their model.</br>
+        What you need to do is create an OpenAI account, add a billing method and then go to the link below to get your API key.</br>
+        <a href="https://platform.openai.com/account/api-keys">Click here to see your API Keys</a>.</p>
+        <p></p>
+        <p><strong>2 - Describe your character!</strong></br>
+        Describe your character in plain english. You can add as much or as little detail as you want: everything that you omit will (hopefully) be filled in by the AI.</br>
+        If you feel like you have no imagination, you can always click <strong>"Randomize"</strong>. That's not an AI call, so you can do it as many times as you want for free.</br>
+        Example: "Sasha is a level 13 rogue assassin, with a passion for coffee and a beloved kitten named Burger"</p>
+        <p></p>
+        <p><strong>3 - Choose your model</strong></br>
+        Choose the model used to generate your character. If you don't know what a model is, check the info below.</p>
+    </div>
+    </div>
+    </div>
+    <div class="content-block">
+        <h2 onclick="toggleContent('model-description')">What model do I choose?</h2>
+        <div id="model-description" class="content">
+            <p><strong>GPT-3.5 Turbo:</strong> This model is very fast, fairly reliable, and produces mid to decent character sheets. Its best feature is cost: a complete character sheet generation will cost about 0.02$, however the quality of the final character sheet is not fantastic: it will require some work to make it play ready. Great if you just need to generate some NPCs, but I'd use gpt-4 for my own playable characters.</p>
+            <p><strong>GPT-4:</strong> This model is a bit slower, and it costs way more at about 0.4$ per character, but it almost never fails, and produces very high quality character sheets, with more detailed racial and class traits, as well as more interesting backstories. It's also way less prone to hallucinations, meaning your characters will always "make sense".</br>
+            <strong>NOTE: GPT-4 is currently in closed beta, so if you want to use it you'll have to <a href="https://openai.com/waitlist/gpt-4-api">opt in here</a> and wait for OpenAI to accept you.</strong><p>
+        </div>
+    </div>
+    <button id="submit-button" type="submit">Generate Character</button>
+    <div id="warning" class="warning"></div>
+    </form>
+<div class="watermark">Gio's Character Generator</div>
+</body>
+</html>

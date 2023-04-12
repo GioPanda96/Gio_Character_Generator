@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English&family=IM+Fell+English+SC&family=Alegreya&display=swap" rel="stylesheet">
+    <title>Character Sheet</title>
+    <link rel="icon" type="image/x-icon" href="/static/icon.ico">
+    <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <style>
+     body {
+        font-family: 'Alegreya', serif;
+        max-width: 1000px;
+        margin: auto;
+        -webkit-background-image: url('https://i.ibb.co/sF1Q7LY/background.jpg');
+        background-image: url('https://i.ibb.co/sF1Q7LY/background.jpg');
+        background-color: #4A4A4A;
+        color: #e7e7e7;
+    }
+    h1, h2 {
+        text-align: center;
+        font-family: 'Alegreya', serif;
+    }
+    ul {
+        list-style-type: none;
+    }
+    ul li {
+        padding: 3px 0;
+    }
+
+    a {
+      color: #ffa6a6;
+    }
+
+    a:visited {
+      color: #ffa6a6;
+    }
+
+    .hidden {
+    display: none;
+    }
+
+    .image-container {
+        text-align: center;
+    }
+
+    .image-wrapper {
+        display: inline-block;
+        position: relative;
+        text-align: center;
+        border: 2px solid white;
+        box-shadow: 0px 2px 4px rgba(255, 255, 255, 1);
+        overflow: hidden;
+        max-height: 256px;
+        height: 100%;
+        width: auto;
+    }
+
+    .image-wrapper:hover::before {
+        content: "Click to edit";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        font-family: 'Alegreya', serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        pointer-events: none; /* Make sure clicks pass through to the input element */
+    }
+
+    .centered-image {
+        display: block;
+        max-height: 256px;
+        height: 100%;
+        width: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .content-block, .left, .center, .right {
+        box-sizing: border-box;
+        position: relative;
+        box-shadow: 0px 2px 4px rgba(255,255,255,1);
+    }
+     .content-section {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out;
+    }
+    .left, .right {
+        width: 29%;
+        border-left: 2px solid white; /* add white border to the left */
+        border-right: 2px solid white; /* add white border to the right */
+    }
+    .left {
+        float: left;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-right: 1%;
+    }
+    .center {
+        float: left;
+        width: 40%;
+        padding-left: 15px;
+        padding-right: 15px;
+        border-left: 2px solid white; /* add white border to the left */
+        border-right: 2px solid white; /* add white border to the right */
+    }
+    .level-spacing {
+    margin-bottom: 1em;
+    }
+    .right {
+        float: left;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-left: 1%;
+    }
+    .content-block {
+        padding: 15px;
+        margin-bottom: 15px;
+        border-top: 2px solid white; /* add white border to the top */
+        border-bottom: 2px solid white; /* add white border to the bottom */
+        border-left: 2px solid white; /* add white border to the left */
+        border-right: 2px solid white; /* add white border to the right */
+    }
+    .custom-button {
+        font-family: 'Alegreya', serif;
+        background-color: #e7e7e7;
+        color: #4A4A4A;
+        border: 2px solid #e7e7e7;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .custom-button:hover {
+        background-color: #4A4A4A;
+        color: #e7e7e7;
+        border-color: #4A4A4A;
+    }
+
+    .centered-container {
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    hr {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        clear: both;
+        height: 2px;
+        background-color: white; /* change the background color to white */
+        border: none;
+        position: relative;
+    }
+    hr:before {
+        content: "";
+        position: absolute;
+        left: 0px;
+        width: 100%;
+        height: 2px;
+        background-color: white; /* change the background color to white */
+        top: 0;
+    }
+    h2 {
+        position: relative;
+        display: inline-block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+        #notes-textarea {
+      font-family: 'Alegreya', serif;
+      width: 100%;
+      height: 200px;
+      resize: vertical;
+      background-color: transparent;
+      color: white;
+    }
+        @media (max-width: 767px) {
+        .left, .center, .right {
+            width: 100%;
+            float: none;
+            margin: 0;
+            padding: 15px;
+            border-left: none;
+            border-right: none;
+        }
+
+        .content-block {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-top: none;
+            border-bottom: none;
+            border-left: none;
+            border-right: none;
+        }
+    }
+
+    /* Medium screens (tablets) */
+    @media (min-width: 768px) and (max-width: 991px) {
+        .left, .center, .right {
+            width: 100%;
+            float: none;
+            margin: 0;
+            padding: 15px;
+            border-left: none;
+            border-right: none;
+        }
+    }
+
+    .watermark {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+</style>
+<script>
+    let imageInputListenerAttached = false;
+        function convertImageToDataURL() {
+            console.log('convertImageToDataURL called');
+            const imageElement = document.getElementById('character-image');
+            const session_id = '{{ session_id }}';
+            const imageUrl = document.getElementById('image-url').textContent;
+            console.log('Image URL:', imageUrl);
+            const downloadImageUrl = `/download_image/${session_id}?url=${encodeURIComponent(imageUrl)}`;
+            console.log('Download Image URL:', downloadImageUrl);
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+
+            img.onload = () => {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                const dataURL = canvas.toDataURL('image/png');
+                imageElement.src = dataURL;
+            };
+
+            img.onerror = () => {
+                console.error('Error converting image to Data URL');
+            };
+
+            img.src = downloadImageUrl;
+
+            document.getElementById('download-button').addEventListener('click', async () => {
+                // Call saveAsHTML and wait for it to complete
+                await saveAsHTML();
+
+                // Redirect to the done page
+                window.location.href = "/done";
+            });
+        }
+
+
+
+        function makeImageEditable() {
+            const imageElement = document.getElementById('character-image');
+            imageElement.addEventListener('click', function() {
+                document.getElementById('image-input').click();
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+        });
+
+        function handleImageChange(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('character-image').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function getAllFunctionsAsScript() {
+            return `
+                let imageInputListenerAttached = false;
+                ${convertImageToDataURL.toString()}
+                ${makeImageEditable.toString()}
+                ${handleImageChange.toString()}
+                ${saveAsHTML.toString()}
+                ${toggleContent.toString()}
+                ${populateCharacterSheet.toString()}
+                document.addEventListener('DOMContentLoaded', function() {
+                    makeImageEditable();
+                    populateCharacterSheet();
+                    document.getElementById('save-button').addEventListener('click', saveAsHTML);
+
+                    if (!imageInputListenerAttached) {
+                        document.getElementById('image-input').addEventListener('change', handleImageChange);
+                        imageInputListenerAttached = true;
+                    }
+                });
+            `;
+        }
+
+        async function saveAsHTML() {
+            return new Promise((resolve) => {
+                // Hide the download-container div
+                document.getElementById('download-container').classList.add('hidden');
+
+                // Show the character sheet
+                document.getElementById('character-sheet-container').classList.remove('hidden');
+
+                // Get the character's name
+                const characterName = document.getElementById('character-name').innerText;
+
+                // Get the entire HTML document as a string
+                const editedHTML = `<!DOCTYPE html><html>${document.documentElement.innerHTML}</html>`;
+
+                // Store the content of the "Notes" textarea
+                const notesContent = document.getElementById('notes-textarea').value;
+
+                // Create a DOM parser to modify the textarea's value
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(editedHTML, 'text/html');
+                const textarea = doc.getElementById('notes-textarea');
+                textarea.textContent = notesContent;
+
+                // Remove the 'hidden' class from the character sheet container in the downloaded HTML
+                const characterSheetContainer = doc.getElementById('character-sheet-container');
+                characterSheetContainer.classList.remove('hidden');
+
+                // Add all functions and event listeners to the saved HTML
+                const script = doc.createElement('script');
+                script.textContent = getAllFunctionsAsScript(); // Call the new function here
+                doc.body.appendChild(script);
+
+                const editedHTMLWithNotesAndScript = `<!DOCTYPE html><html>${doc.documentElement.innerHTML}</html>`;
+
+                // Generate the download link and trigger the download
+                const downloadLink = document.createElement('a');
+                const blob = new Blob([editedHTMLWithNotesAndScript], { type: 'text/html' });
+                downloadLink.href = URL.createObjectURL(blob);
+                downloadLink.download = `${characterName}.html`;
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+
+                // Add a setTimeout to allow the download to complete before resolving the Promise and resetting the page
+                setTimeout(async () => {
+                    // Hide the character sheet again
+                    document.getElementById('character-sheet-container').classList.add('hidden');
+
+                    // Show the download-container div
+                    document.getElementById('download-container').classList.remove('hidden');
+
+                    // Send a request to delete the files after the download is complete
+                    const session_id = '{{ session_id }}';
+                    const response = await fetch('/delete_files/' + session_id);
+                    const data = await response.json();
+                    if (data.success) {
+                        console.log('Files deleted successfully.');
+                    } else {
+                        console.error('Error deleting files.');
+                    }
+
+                    resolve();
+                }, 1000);
+            });
+        }
+
+        function toggleContent(id) {
+            const contentSection = document.getElementById(id);
+            if (contentSection.style.maxHeight) {
+                contentSection.style.maxHeight = null;
+            } else {
+                contentSection.style.maxHeight = contentSection.scrollHeight + "px";
+            }
+        }
+
+
+        fetch('{{ url_for('static', filename='image_url_' + session_id + '.json') }}')
+          .then(response => response.json())
+          .then(data => {
+            document.querySelector('#character-image').src = data.image_url;
+            convertImageToDataURL();
+          });
+
+
+    async function populateCharacterSheet() {
+        const sessionId = '{{ session_id }}';
+        const response = await fetch(`/static/Params_${sessionId}.json`);
+        const character = await response.json();
+
+    document.title = `${character.character_name} - Level ${character.level} ${character.class}${character.subclass ? ' ' + character.subclass : ''} ${character.race}`;
+
+    document.getElementById('character-name').innerText = character.character_name;
+    document.getElementById('level-race-class-subclass').innerText = `Level ${character.level} - ${character.class}${character.subclass ? ` (${character.subclass})` : ''} - ${character.race}`;
+       // Abilities
+        for (const ability in character.abilities) {
+            const li = document.createElement('li');
+            li.setAttribute('contenteditable', 'true');
+            li.innerHTML = `${ability[0].toUpperCase() + ability.slice(1)}: ${character.abilities[ability].score} (${character.abilities[ability].modifier})`;
+            document.getElementById('abilities-list').appendChild(li);
+        }
+
+        // Skills
+        for (const skill in character.skills) {
+            const formattedSkill = skill.replace('_', ' ');
+            const li = document.createElement('li');
+            li.setAttribute('contenteditable', 'true');
+            li.innerHTML = `${formattedSkill[0].toUpperCase() + formattedSkill.slice(1)}: ${character.skills[skill]}`;
+            document.getElementById('skills-list').appendChild(li);
+        }
+
+        // Languages
+        character.languages.forEach(language => {
+            const li = document.createElement('li');
+            li.setAttribute('contenteditable', 'true');
+            li.innerHTML = language;
+            document.getElementById('languages-list').appendChild(li);
+        });
+
+        // Character stats
+        for (const stat in character.character_stats) {
+            const li = document.createElement('li');
+            li.setAttribute('contenteditable', 'true');
+            li.innerHTML = `${stat[0].toUpperCase() + stat.slice(1).replace('_', ' ')}: ${character.character_stats[stat]}`;
+            document.getElementById('character-stats-list').appendChild(li);
+        }
+
+        // Proficiencies and Class Features
+        character.proficiencies_class_features.forEach(feature => {
+            const li = document.createElement('li');
+            li.setAttribute('contenteditable', 'true');
+            li.innerHTML = `${feature.name}: ${feature.description}`;
+            document.getElementById('proficiencies-class-features-list').appendChild(li);
+        });
+
+        // Equipment
+        character.equipment.forEach(item => {
+            const li = document.createElement('li');
+            li.setAttribute('contenteditable', 'true');
+            li.innerHTML = item;
+            document.getElementById('equipment-list').appendChild(li);
+        });
+
+        // Racial Traits
+        character.racial_traits.forEach(trait => {
+          const li = document.createElement('li');
+          li.setAttribute('contenteditable', 'true');
+          li.innerHTML = `${trait.name}: ${trait.description}`;
+          document.getElementById('racial-traits-list').appendChild(li);
+        });
+
+        // Feats
+        character.feats.forEach(feat => {
+            const li = document.createElement('li');
+            li.setAttribute('contenteditable', 'true');
+            li.innerHTML = `${feat.name}: ${feat.description}`;
+            document.getElementById('feats-list').appendChild(li);
+        });
+
+        // Spells
+        if (character.spells.spells && Object.keys(character.spells.spells).length > 0) {
+            // Display spellcaster ability, spell save DC, and spell attack bonus
+            document.getElementById('spellcaster-ability').innerHTML = character.spells.spellcaster_ability;
+            document.getElementById('spell-save-dc').innerHTML = character.spells.spell_save_dc;
+            document.getElementById('spell-attack-bonus').innerHTML = character.spells.spell_attack_bonus;
+
+            let previousLevel = null;
+            Object.entries(character.spells.spells).forEach(([level, spellData]) => {
+                if (level === 'cantrips') {
+                    spellData.forEach((spell, index) => {
+                        const li = document.createElement('li');
+                        li.setAttribute('contenteditable', 'true');
+
+                        // Create an anchor tag with the spell's wiki URL
+                        const spellAnchor = document.createElement('a');
+                        spellAnchor.href = `http://dnd5e.wikidot.com/spell:${spell.toLowerCase().replace(/ /g, '-')}`;
+                        spellAnchor.target = '_blank'; // Open the link in a new tab
+                        spellAnchor.textContent = `${spell} (Cantrip)`;
+
+                        // Add event listeners to disable editing when clicking the anchor tag and re-enable when losing focus
+                        spellAnchor.addEventListener('click', (e) => e.stopPropagation());
+                        spellAnchor.addEventListener('focus', () => li.setAttribute('contenteditable', 'false'));
+                        spellAnchor.addEventListener('blur', () => li.setAttribute('contenteditable', 'true'));
+
+                        // Append the anchor tag to the list item and the list item to the spells list
+                        li.appendChild(spellAnchor);
+                        document.getElementById('spells-list').appendChild(li);
+
+                        // Add space under the last cantrip
+                        if (index === spellData.length - 1) {
+                            const liSpacing = document.createElement('li');
+                            liSpacing.classList.add('level-spacing');
+                            document.getElementById('spells-list').appendChild(liSpacing);
+                        }
+                    });
+                } else {
+                    const levelNumber = level.split('_')[1];
+                    // Check if the spellData has a 'spells' property and it's not empty
+                    if (spellData.spells && spellData.spells.length > 0) {
+                        // Add a space between different levels
+                        if (previousLevel !== null) {
+                            const li = document.createElement('li');
+                            li.classList.add('level-spacing'); // Add a class to style the spacing
+                            document.getElementById('spells-list').appendChild(li);
+                        }
+                        previousLevel = levelNumber;
+
+                        // Add the spell slots total at the top of the spells of each level
+                        if (spellData.spell_slots) {
+                            const li = document.createElement('li');
+                            li.setAttribute('contenteditable', 'true');
+                            li.textContent = `Level ${levelNumber} - spell slots: ${spellData.spell_slots}`;
+                            document.getElementById('spells-list').appendChild(li);
+                        }
+
+                        spellData.spells.forEach(spell => {
+                            const li = document.createElement('li');
+                            li.setAttribute('contenteditable', 'true');
+
+                            // Create an anchor tag with the spell's wiki URL
+                            const spellAnchor = document.createElement('a');
+                            spellAnchor.href = `http://dnd5e.wikidot.com/spell:${spell.toLowerCase().replace(/ /g, '-')}`;
+                            spellAnchor.target = '_blank'; // Open the link in a new tab
+                            spellAnchor.textContent = `${spell}`;
+
+                            // Add event listeners to disable editing when clicking the anchor tag and re-enable when losing focus
+                            spellAnchor.addEventListener('click', (e) => e.stopPropagation());
+                            spellAnchor.addEventListener('focus', () => li.setAttribute('contenteditable', 'false'));
+                            spellAnchor.addEventListener('blur', () => li.setAttribute('contenteditable', 'true'));
+
+                            // Append the anchor tag to the list item and the list item to the spells list
+                            li.appendChild(spellAnchor);
+                            document.getElementById('spells-list').appendChild(li);
+                        });
+                    }
+                }
+            });
+        }
+
+        // Add an event listener to the 'spells' div
+        document.getElementById('spells').addEventListener('click', function (e) {
+            // If the clicked element is an anchor tag
+            if (e.target.tagName === 'A') {
+                e.preventDefault(); // Prevent the default behavior (editing the content)
+                window.open(e.target.href, '_blank'); // Open the link in a new tab
+            }
+        });
+
+        // Appearance and Description
+        document.getElementById('appearance-description').setAttribute('contenteditable', 'true');
+        document.getElementById('appearance-description').innerHTML = character.appearance;
+
+        // Personality Traits, Ideals, Bonds, and Flaws
+        character.personality_traits_ideals_bonds_flaws.forEach(item => {
+            const li = document.createElement('li');
+            li.setAttribute('contenteditable', 'true');
+            li.innerHTML = `${item.type}: ${item.description}`;
+            document.getElementById('personality-traits-ideals-bonds-flaws-list').appendChild(li);
+        });
+
+        // Allies and Organizations
+        character.allies_organizations.forEach(item => {
+            const li = document.createElement('li');
+            li.setAttribute('contenteditable', 'true');
+            li.innerHTML = `${item.name} (${item.relationship})`;
+            document.getElementById('allies-organizations-list').appendChild(li);
+        });
+
+        // Backstory
+        document.getElementById('backstory').setAttribute('contenteditable', 'true');
+        document.getElementById('backstory').innerHTML = character.backstory;
+
+    }
+
+        document.addEventListener('DOMContentLoaded', () => {
+        populateCharacterSheet();
+
+        // Add an event listener for the Save button
+        document.getElementById('save-button').addEventListener('click', saveAsHTML);
+        makeImageEditable();
+        document.getElementById('image-input').addEventListener('change', handleImageChange); // Add this line
+    });
+
+</script>
+</head>
+<body>
+    <div id="download-container" class="centered-container">
+        <h1>Your Character is Ready!</h1>
+        <button id="download-button" class="custom-button">Download Character Sheet</button>
+    </div>
+    <div id="character-sheet-container" class="hidden">
+    <h1 id="character-name"contentEditable="true"></h1>
+    <div class="image-container">
+        <div class="image-wrapper">
+            <img id="character-image" src="" alt="Character Image" class="centered-image">
+            <input type="file" id="image-input" accept="image/*" style="display: none;">
+        </div>
+    </div>
+    <h2 id="level-race-class-subclass"contentEditable="true"></h2>
+    <hr>
+    <div class="left">
+        <h2 onclick="toggleContent('abilities')">Abilities</h2>
+        <div id="abilities" class="content-section" contentEditable="true">
+            <ul id="abilities-list">
+            </ul>
+        </div>
+        <hr>
+        <h2 onclick="toggleContent('skills')">Skills</h2>
+        <div id="skills" class="content-section" contentEditable="true">
+            <ul id="skills-list">
+            </ul>
+        </div>
+        <hr>
+        <h2 onclick="toggleContent('languages')">Languages</h2>
+        <div id="languages" class="content-section" contentEditable="true">
+            <ul id="languages-list">
+            </ul>
+        </div>
+    </div>
+    <div class="center">
+        <h2 onclick="toggleContent('character-stats')">Character Stats</h2>
+        <div id="character-stats" class="content-section" contentEditable="true">
+            <ul id="character-stats-list">
+            </ul>
+        </div>
+        <hr>
+        <h2 onclick="toggleContent('proficiencies-class-features')">Proficiencies and Class Features</h2>
+        <div id="proficiencies-class-features" class="content-section" contentEditable="true">
+            <ul id="proficiencies-class-features-list">
+            </ul>
+        </div>
+    </div>
+    <div class="right">
+        <h2 onclick="toggleContent('equipment')">Equipment</h2>
+        <div id="equipment" class="content-section" contentEditable="true">
+            <ul id="equipment-list">
+            </ul>
+        </div>
+        <hr>
+        <h2 onclick="toggleContent('racial-traits')">Racial Traits</h2>
+        <div id="racial-traits" class="content-section" contentEditable="true">
+            <ul id="racial-traits-list">
+            </ul>
+        </div>
+        <hr>
+        <h2 onclick="toggleContent('feats')">Feats</h2>
+        <div id="feats" class="content-section" contentEditable="true">
+            <ul id="feats-list">
+            </ul>
+        </div>
+    </div>
+    <hr style="clear: both;">
+        <div class="content-block">
+            <h2 onclick="toggleContent('spells')">Spells</h2>
+            <div id="spells" class="content-section" contentEditable="true">
+                <p>Spellcasting Ability: <span id="spellcaster-ability"></span></p>
+                <p>Spell Save DC: <span id="spell-save-dc"></span></p>
+                <p>Spell Attack Bonus: <span id="spell-attack-bonus"></span></p>
+                <ul id="spells-list"></ul>
+            </div>
+        </div>
+    <div class="content-block">
+        <h2 onclick="toggleContent('appearance')">Appearance</h2>
+        <div id="appearance" class="content-section" contentEditable="true">
+            <p id="appearance-description">
+            </p>
+        </div>
+    </div>
+    <div class="content-block">
+        <h2 onclick="toggleContent('personality-traits-ideals-bonds-flaws')">Personality Traits, Ideals, Bonds, and Flaws</h2>
+        <div id="personality-traits-ideals-bonds-flaws" class="content-section" contentEditable="true">
+            <ul id="personality-traits-ideals-bonds-flaws-list">
+            </ul>
+        </div>
+    </div>
+    <div class="content-block">
+        <h2 onclick="toggleContent('allies-organizations')">Allies and Organizations</h2>
+        <div id="allies-organizations" class="content-section" contentEditable="true">
+            <ul id="allies-organizations-list">
+            </ul>
+        </div>
+    </div>
+    <div class="content-block">
+        <h2 onclick="toggleContent('backstory')">Backstory</h2>
+        <div id="backstory" class="content-section" contentEditable="true">
+            <p id="backstory">
+            </p>
+        </div>
+    </div>
+      <div class="content-block">
+        <h2 onclick="toggleContent('notes')">Notes</h2>
+        <div id="notes" class="content-section">
+          <textarea id="notes-textarea" contentEditable="true"></textarea>
+        </div>
+      </div>
+    <button id="save-button" class="custom-button" style="display: block; margin: 10px auto;">Save Changes</button>
+    <div class="watermark">Gio's Character Generator</div>
+    <span id="image-url" style="display: none;">{{ image_url }}</span>
+    </div>
+</body>
+</html>
