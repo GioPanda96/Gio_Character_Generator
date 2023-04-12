@@ -1,9 +1,0 @@
-{
-  "allies_organizations": [
-    {
-      "name": "Ally/Organization Name",
-      "relationship": "Relationship"
-    }
-  ],
-  "backstory": "BRIEF character backstory" // Keep it SHORT!!
-}
