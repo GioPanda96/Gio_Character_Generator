@@ -5,6 +5,7 @@ Currently running here: https://giovannipanda.pythonanywhere.com
 
 The code takes a character description in conversational english and outputs a full and editable D&D 5e character sheet, complete of everything you might need to play.
 The generator uses OpenAI models for the text content and DeepAI for the character image.
+
 (Note: the OpenAI API key is taken as an input in the home page of the website, while the DeepAI key is hard coded in for REASONS. In the provided code here the DeepAI key has to be manually put in script.py in place of DEEPAI_KEY)
 
 ## How do I use this?
