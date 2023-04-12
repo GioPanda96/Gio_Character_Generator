@@ -1,0 +1,14 @@
+{
+  "racial_traits": [ //Make sure to include ALL traits that the character possesses thanks to his/her race
+    {
+      "name": "<a href=\"dnd5e.wikidot.com_link_to_the_trait\">Trait Name</a>", //Add relevant dnd5e.wikidot.com links for players to reference the trait in more detail
+      "description": "Brief Description"
+    }
+  ],
+  "feats": [ //Leave empty if the character doesn't have any. Do not add any comments, just leave it empty.
+    {
+      "name": "Feat Name",
+      "description": "Description"
+    }
+  ]
+}

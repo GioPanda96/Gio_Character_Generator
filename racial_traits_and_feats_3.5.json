@@ -1,0 +1,14 @@
+{
+  "racial_traits": [ //Make sure to include ALL traits that the character possesses thanks to his/her race
+    {
+      "name": "Trait Name",
+      "description": "Description"
+    }
+  ],
+  "feats": [ //Leave empty if the character doesn't have any. Do not add any comments, just leave it empty.
+    {
+      "name": "Feat Name",
+      "description": "Description"
+    }
+  ]
+}

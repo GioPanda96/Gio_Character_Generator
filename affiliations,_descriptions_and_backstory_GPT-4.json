@@ -1,0 +1,9 @@
+{
+  "allies_organizations": [
+    {
+      "name": "Ally/Organization Name",
+      "relationship": "Relationship"
+    }
+  ],
+  "backstory": "Detailed Character backstory" // Make sure it fits your character limit, or the JSON will be wrongly formatted!
+}
