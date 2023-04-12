@@ -16,21 +16,17 @@ deepai_api_key = 'DEEPAI_KEY'
 
 The tool is very simple to use, just follow these steps:
 
-**1 - Go to the website** 
-https://giovannipanda.pythonanywhere.com
+**1 - Go to the website**: https://giovannipanda.pythonanywhere.com
 
-**2 - Get yourself an OpenAI Key**
-You will need an OpenAI API key to use the tool, since the generation costs a very small amount of money (just a few cents). The money doesn't go to me, it goes to OpeanAI to allow us to use their model.
+**2 - Get yourself an OpenAI Key**. You will need an OpenAI API key to use the tool, since the generation costs a very small amount of money (just a few cents). The money doesn't go to me, it goes to OpeanAI to allow us to use their model.
 What you need to do is create an OpenAI account, add a billing method and then go to the link below to get your API key.
 https://platform.openai.com/account/api-keys
 
-**3 - Describe your character!**
-Describe your character in plain english. You can add as much or as little detail as you want: everything that you omit will (hopefully) be filled in by the AI.
+**3 - Describe your character!** Describe your character in plain english. You can add as much or as little detail as you want: everything that you omit will (hopefully) be filled in by the AI.
 If you feel like you have no imagination, you can always click "Randomize". That's not an AI call, so you can do it as many times as you want for free.
 Description Example: "Sasha is a level 13 rogue assassin, with a passion for coffee and a beloved kitten named Burger"
 
-**4 - Choose your model**
-Choose the model used to generate your character. If you don't know what a model is, check the info below.
+**4 - Choose your model**. Choose the model used to generate your character. If you don't know what a model is, check the info below.
 
 ## What model do I choose?
 
